@@ -8,6 +8,7 @@ public class Product {
     private String productName;
     private BigDecimal productPrice;
 
+
     public Product(String productName, BigDecimal productPrice) {
         this.productId = UUID.randomUUID();
         if(validateProductName(productName)) this.productName = productName;
@@ -47,7 +48,7 @@ public class Product {
     }
 
     private boolean validateProductPrice(BigDecimal productPrice) {
-        if (productPrice < 0) {
+        if (productPrice.compareTo(BigDecimal.ZERO) <= 0) {
             return false;
         }
         return true;
