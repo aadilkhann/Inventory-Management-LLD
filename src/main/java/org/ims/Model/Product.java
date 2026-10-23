@@ -41,16 +41,11 @@ public class Product {
     }
 
     private boolean validateProductName(String productName) {
-        if (productName == null || productName.isEmpty()) {
-            return false;
-        }
-        return true;
+        return productName != null && !productName.isBlank();
     }
 
     private boolean validateProductPrice(BigDecimal productPrice) {
-        if (productPrice.compareTo(BigDecimal.ZERO) <= 0) {
-            return false;
-        }
-        return true;
+        return productPrice != null
+                && productPrice.compareTo(BigDecimal.ZERO) > 0;
     }
 }

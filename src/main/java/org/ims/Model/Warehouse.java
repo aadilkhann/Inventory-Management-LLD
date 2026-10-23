@@ -25,11 +25,39 @@ public class Warehouse {
         this.warehouseName = warehouseName;
     }
 
-    public void addInventory(Inventory inventory){
-        if(inventory!=null && inventory.getInventoryId()!=null) this.inventory.put(inventory.getProductId(), inventory);
+    public void addInventory(Inventory item) {
+        Objects.requireNonNull(item, "Inventory cannot be null");
+
+        if (!warehouseId.equals(item.getWarehouseId())) {
+            throw new IllegalArgumentException(
+                    "Inventory belongs to another warehouse"
+            );
+        }
+
+        UUID productId = item.getProductId();
+
+        if (inventory.containsKey(productId)) {
+            throw new IllegalStateException(
+                    "Inventory already exists for this product"
+            );
+        }
+
+        inventory.put(productId, item);
     }
 
     public Iterable<Inventory> getInventory(){
          return Collections.unmodifiableCollection(inventory.values());
+    }
+
+    public Inventory getInventory(UUID productId) {
+        Inventory item = inventory.get(productId);
+
+        if (item == null) {
+            throw new NoSuchElementException(
+                    "Inventory not found for product"
+            );
+        }
+
+        return item;
     }
 }
